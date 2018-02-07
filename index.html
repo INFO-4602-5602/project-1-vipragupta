@@ -1,11 +1,13 @@
 <html>
 <head>
-<title>Project 0</title>
-<style type="text/css" href="project0.css"></style>
+<title>Project 1</title>
+<link rel="stylesheet" href="project1.css"></style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!--Put your D3 import statement between these two lines-->
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <!--Put your D3 import statement between these two lines-->
+
+
 </head>
 
 <body>
@@ -34,16 +36,54 @@
     
     <script type="text/javascript">
         // Put your part one code here ***********************
+        var dataX = [[],[],[],[]];
+        var dataY = [[],[],[],[]];
+        
+        d3.csv("./data/anscombe_I.csv", function(error, data) {
+            for (var i =0; i < data.length; i++) {
+                dataX[0].push(data[i].x);
+                dataY[0].push(data[i].y);
+            }
+            checkDataset(dataX[0]);
+        });
+        d3.csv("./data/anscombe_II.csv", function(error, data) {
+            for (var i =0; i < data.length; i++) {
+                dataX[1].push(data[i].x);
+                dataY[1].push(data[i].y);
+            }
+            checkDataset(dataX[1]);
+        });
+        d3.csv("./data/anscombe_III.csv", function(error, data) {
+            for (var i =0; i < data.length; i++) {
+                dataX[2].push(data[i].x);
+                dataY[2].push(data[i].y);
+            }
+            checkDataset(dataX[2]);
+        });
+        d3.csv("./data/anscombe_IV.csv", function(error, data) {
+            for (var i =0; i < data.length; i++) {
+                dataX[3].push(data[i].x);
+                dataY[3].push(data[i].y);
+            }
+            checkDataset(dataX[3]);
+        });
+        
+        
 
-        
         // Leave this to test your data uploading. All data uploading should be above this line
-        function checkDataset(dataset) {
-            if (dataset.length == 11)
+        function checkDataset(data) {
+            console.log("Inside");
+            console.log(data);
+            console.log(data.length);
+            if (data.length == 11) {
+                console.log("True that!!!");
                 $("#partOne").append("<p>data loaded correctly</p>");
-            else
+            }
+            else {
+                console.log("Lol!!!");
                 $("#partOne").append("<p>data loaded incorrectly. Try using the debugger to help you find the bug!</p>");
+            }
         }
-        
         // Put your part two code here ***********************
         
         // Put your part three & four code here ***********************
