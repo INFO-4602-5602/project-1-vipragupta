@@ -1,10 +1,12 @@
+<!--sudo /opt/lampp/lampp start -->
+
 <html>
 <head>
 <title>Project 1</title>
 <link rel="stylesheet" href="project1.css"></style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!--Put your D3 import statement between these two lines-->
-<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
 <!--Put your D3 import statement between these two lines-->
 
 
@@ -46,6 +48,7 @@
             }
             checkDataset(dataX[0]);
         });
+
         d3.csv("./data/anscombe_II.csv", function(error, data) {
             for (var i =0; i < data.length; i++) {
                 dataX[1].push(data[i].x);
@@ -53,6 +56,7 @@
             }
             checkDataset(dataX[1]);
         });
+
         d3.csv("./data/anscombe_III.csv", function(error, data) {
             for (var i =0; i < data.length; i++) {
                 dataX[2].push(data[i].x);
@@ -60,6 +64,7 @@
             }
             checkDataset(dataX[2]);
         });
+
         d3.csv("./data/anscombe_IV.csv", function(error, data) {
             for (var i =0; i < data.length; i++) {
                 dataX[3].push(data[i].x);
@@ -72,20 +77,92 @@
 
         // Leave this to test your data uploading. All data uploading should be above this line
         function checkDataset(data) {
-            console.log("Inside");
-            console.log(data);
-            console.log(data.length);
             if (data.length == 11) {
-                console.log("True that!!!");
                 $("#partOne").append("<p>data loaded correctly</p>");
             }
             else {
-                console.log("Lol!!!");
                 $("#partOne").append("<p>data loaded incorrectly. Try using the debugger to help you find the bug!</p>");
             }
         }
-        // Put your part two code here ***********************
-        
+
+// Put your part two code here ***********************
+
+var w = 700; // Width of our visualization
+var h = 500; // Height of our visualization
+var xOffset = 40; // Space for x-axis labels
+var yOffset = 100; // Space for y-axis labels
+var margin = 10; // Margin around visualization
+var vals = ['x', 'y']; // List of data attributes
+var xVal = vals[0]; // Value to plot on x-axis
+var yVal = vals[1]; // Value to plot on y-axis
+
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 50};
+var width = 960 - margin.left - margin.right;
+var height = 500 - margin.top - margin.bottom;
+
+// set the ranges
+var x = d3.scaleLinear().range([0, width]);
+var y = d3.scaleLinear().range([height, 0]);
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("#partTwo").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+d3.csv("./data/anscombe_II.csv", function(error, data) {
+    if  (error) throw error;
+    // Scale the range of the data
+    var yMax = d3.max(data, function(d) { return d[yVal];});
+
+    x.domain(d3.extent(data, function(d) {
+                                return +d[xVal];
+                            }));
+    y.domain([0, yMax]);
+     //     Add the scatterplot points
+    svg.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("cx", function(d) {
+                        return x(d[xVal]);
+                    })
+        .attr("cy", function(d) {
+                        return y(d[yVal]);
+                            })
+        .attr("fill", "red");
+
+
+     //     Add the X Axis
+    svg.append("g")
+        .attr("transform", "translate(0, " + height + ")")
+        .call(d3.axisBottom(x));
+
+     //     Add the Y Axis
+    svg.append("g")
+        .call(d3.axisLeft(y));
+
+    //Add text labels
+    var xLabel = svg.append("text")
+                    .attr("class", "label")
+                    .text(xVal)
+                    .attr("x", width - 20)
+                    .attr("y", height - 10);
+
+    var yLabel = svg.append("text")
+                    .attr("class", "label")
+                    .text(yVal)
+                    .attr("y", -10)
+                    .attr("transform", "rotate(90)")
+                    .style("text-anchor", "start");
+});
+
         // Put your part three & four code here ***********************
         
         // Put your part five code here ***********************
