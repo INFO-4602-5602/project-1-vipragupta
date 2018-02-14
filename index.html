@@ -163,7 +163,69 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
                     .style("text-anchor", "start");
 });
 
-        // Put your part three & four code here ***********************
+// Put your part three & four code here ***********************
+
+//Reference: https://bl.ocks.org/d3noob/402dd382a51a4f6eea487f9a35566de0
+
+// define the line
+var valueline = d3.line()
+    .x(function(d) { return x(d[xVal]); })
+    .y(function(d) { return y(d[yVal]); });
+
+var svg3 = d3.select("#partThree").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+d3.csv("./data/anscombe_II.csv", function(error, data) {
+
+    if  (error) throw error;
+    
+    data.sort(function(a,b) {return a[xVal]-b[xVal];});
+    // Scale the range of the data
+    var yMax = d3.max(data, function(d) { return d[yVal];});
+
+    x.domain(d3.extent(data, function(d) {
+                                return +d[xVal];
+                            }));
+    y.domain([0, yMax]);
+     //     Add the scatterplot points
+
+    console.log(data);
+
+    svg3.append("path")
+      .data([data])
+      .attr("class", "line")
+      .attr("d", valueline)
+      .attr("fill", "none")
+      .attr("stroke", "blue");
+
+
+     //Add the X Axis
+    svg3.append("g")
+        .attr("transform", "translate(0, " + height + ")")
+        .call(d3.axisBottom(x));
+
+     //     Add the Y Axis
+    svg3.append("g")
+        .call(d3.axisLeft(y));
+
+    //Add text labels
+    var xLabel = svg3.append("text")
+                    .attr("class", "label")
+                    .text(xVal)
+                    .attr("x", width - 20)
+                    .attr("y", height - 10);
+
+    var yLabel = svg3.append("text")
+                    .attr("class", "label")
+                    .text(yVal)
+                    .attr("y", -10)
+                    .attr("transform", "rotate(90)")
+                    .style("text-anchor", "start");
+});
         
         // Put your part five code here ***********************
         
