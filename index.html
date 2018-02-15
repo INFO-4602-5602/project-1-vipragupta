@@ -19,20 +19,30 @@
     
     <div id="partTwo">
         <h1>Part Two: </h1>
-        <div id="barchart">
+        <div id="scatterplot">
+            <p id="scatterLabel"></p>
         </div>
 	</div>
     
     <div id="partThree">
         <h1>Part Three &amp; Four: </h1>
-        <div id="scatterplot">
-            <p id="scatterLabel"></p>
+        <div id="linegraph">
+            
         </div>
 	</div>
     
     <div id="partFive">
         <h1>Part Five: </h1>
         <div id="scatterplotSet">
+            <div id="space0" style="width:2%;float:left;"> </div>
+            <div id="scatterplotSet_1" style="width:20%;float:left;"> Anscombe I </div>
+            <div id="space1" style="width:5%;float:left;"> </div>
+            <div id="scatterplotSet_2" style="width:20%;float:left;"> Anscombe II </div>
+            <div id="space2" style="width:5%;float:left;"> </div>
+            <div id="scatterplotSet_3" style="width:20%;float:left;"> Anscombe III </div>
+            <div id="space3" style="width:5%;float:left;"> </div>
+            <div id="scatterplotSet_4" style="width:20%;float:left;"> Anscombe IV </div>
+            <div id="space4" style="width:2%;float:left;"> </div>
         </div>
 	</div>
     
@@ -102,6 +112,7 @@ var width = 960 - margin.left - margin.right;
 var height = 500 - margin.top - margin.bottom;
 
 // set the ranges
+
 var x = d3.scaleLinear().range([0, width]);
 var y = d3.scaleLinear().range([height, 0]);
 
@@ -120,11 +131,30 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
     // Scale the range of the data
     var yMax = d3.max(data, function(d) { return d[yVal];});
 
+    var xScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[xVal] + 10; })])
+          .range([margin.left, width - margin.right]);  // Set margins for x specific
+
+      // We're passing in a function in d3.max to tell it what we're maxing (y value)
+    var yScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[yVal] + 10; })])
+          .range([margin.top, height - margin.bottom]);  // Set margins for y specific
+
     x.domain(d3.extent(data, function(d) {
                                 return +d[xVal];
                             }));
     y.domain([0, yMax]);
      //     Add the scatterplot points
+
+    var mouseover = function(d) {
+          var p = d3.select(this)
+            .style("fill", "orange");}
+
+    var mouseout = function(d) {
+          var p = d3.select(this)
+            .style("fill", "red");}
+
+
     svg.selectAll("circle")
         .data(data)
         .enter()
@@ -136,8 +166,27 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
         .attr("cy", function(d) {
                         return y(d[yVal]);
                             })
-        .attr("fill", "red");
+        .attr("fill", "red")
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout) 
+        .on("click", function(d) {
+            $("#scatterLabel").append("<p>" + "x: " + d.x + "\ny: " + d.y + "</p>")
+        })
+            //return "x: " + d.x + "\ny: " + d.y;})
+        .append("svg:title")
+        .text(function(d) {return "x: " + d.x + "\ny: " + d.y;});
 
+
+    // svg.on("click", function() {
+    //     var coords = d3.mouse(this);
+
+    //       // Normally we go from data to pixels, but here we're doing pixels to data
+    //       var newData= {
+    //         x: Math.round( x.invert(coords[0])),  // Takes the pixel number to convert to number
+    //         y: Math.round( y.invert(coords[1]))
+    //       };
+    //     $("#scatterLabel").append("<p>" + newData[x] + "  " + newData[y] + "</p>");
+    //     });
 
      //     Add the X Axis
     svg.append("g")
