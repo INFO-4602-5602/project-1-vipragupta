@@ -1,8 +1,13 @@
 <h1>Project 1: Visualizing Anscombe’s Quartet</h1>
 
-Due 11:59pm, Friday, February 9 through GitHub
+Completed all the five parts including the first Bell "Bell: Tooltips". I used v4 of d3 to complete this project.
+I collaborated with Hemange Bansal in this project.
 
-In this project, you will work with D3 to visualize the four datasets of Anscombe’s quartet. Parts 1 through 5 will be required for the assignment, whereas the bells and whistles are optional extra credit additions. 
+For the first part, I simply saved the data in a 2D array and then called the check function on this array.
+
+I combined the code for part 2, 3 and 4 to be included in one scatter plot.
+
+For Part 5, I created 4 div side-by-side and plotted the scatterplot in them by manipulating the margins and width height of the plot to fit within the div.
 
 <h2>Collaboration Policy:</h2>
 You may optionally work in groups on this project. If you choose to work with others, all group members must submit their own work and you should note who you worked with the complete the project at the top of your readme.txt file. 
