@@ -12,38 +12,36 @@
 
 </head>
 
-<body>
+<body background="background_image_9.jpg">
 	<div id="partOne">
-        <h1>Part One: </h1>
+        <h1  >Part One: </h1>
 	</div>
-    
+    <br/><br/><br/><br/><br/><br/><br/>
     <div id="partTwo">
-        <h1>Part Two: </h1>
+        <h1 >Part Two: </h1>
         <div id="scatterplot">
             <p id="scatterLabel"></p>
         </div>
 	</div>
-    
+    <br/><br/><br/><br/><br/><br/><br/>
     <div id="partThree">
-        <h1>Part Three &amp; Four: </h1>
+        <h1 >Part Three &amp; Four: </h1>
         <div id="linegraph">
             
         </div>
 	</div>
-    
+    <br/><br/><br/><br/><br/><br/><br/>
     <div id="partFive">
-        <h1>Part Five: </h1>
+        <h1 >Part Five: </h1>
         <div id="scatterplotSet">
-            <div id="space0" style="width:2%;float:left;"> </div>
-            <div id="scatterplotSet_1" style="width:20%;float:left;"> Anscombe I </div>
-            <div id="space1" style="width:5%;float:left;"> </div>
-            <div id="scatterplotSet_2" style="width:20%;float:left;"> Anscombe II </div>
-            <div id="space2" style="width:5%;float:left;"> </div>
-            <div id="scatterplotSet_3" style="width:20%;float:left;"> Anscombe III </div>
-            <div id="space3" style="width:5%;float:left;"> </div>
-            <div id="scatterplotSet_4" style="width:20%;float:left;"> Anscombe IV </div>
-            <div id="space4" style="width:2%;float:left;"> </div>
-        </div>
+            <div id="scatterplotSet_1" style="width:25%;float:left;"> <h3 align="center"> Anscombe I </h3></div>
+            
+            <div id="scatterplotSet_2" style="width:25%;float:left;"><h3 align="center">  Anscombe II </h3></div>
+            
+            <div id="scatterplotSet_3" style="width:25%;float:left;"> <h3 align="center"> Anscombe III </h3></div>
+            
+            <div id="scatterplotSet_4" style="width:25%;float:left;"><h3 align="center">  Anscombe IV </h3> </div>
+            </div>
 	</div>
     
     <script type="text/javascript">
@@ -88,20 +86,20 @@
         // Leave this to test your data uploading. All data uploading should be above this line
         function checkDataset(data) {
             if (data.length == 11) {
-                $("#partOne").append("<p>data loaded correctly</p>");
+                $("#partOne").append("<p>Data loaded correctly!!! </p>");
             }
             else {
-                $("#partOne").append("<p>data loaded incorrectly. Try using the debugger to help you find the bug!</p>");
+                $("#partOne").append("<p>Data loaded incorrectly. Try using the debugger to help you find the bug!</p>");
             }
         }
 
 // Put your part two code here ***********************
 
-var w = 700; // Width of our visualization
-var h = 500; // Height of our visualization
-var xOffset = 40; // Space for x-axis labels
-var yOffset = 100; // Space for y-axis labels
-var margin = 10; // Margin around visualization
+// var w = 700; // Width of our visualization
+// var h = 500; // Height of our visualization
+// var xOffset = 40; // Space for x-axis labels
+// var yOffset = 100; // Space for y-axis labels
+// var margin = 10; // Margin around visualization
 var vals = ['x', 'y']; // List of data attributes
 var xVal = vals[0]; // Value to plot on x-axis
 var yVal = vals[1]; // Value to plot on y-axis
@@ -113,8 +111,8 @@ var height = 500 - margin.top - margin.bottom;
 
 // set the ranges
 
-var x = d3.scaleLinear().range([0, width]);
-var y = d3.scaleLinear().range([height, 0]);
+var x1 = d3.scaleLinear().range([0, width]);
+var y1 = d3.scaleLinear().range([height, 0]);
 
 // append the svg obgect to the body of the page
 // appends a 'group' element to 'svg'
@@ -140,10 +138,10 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
           .domain([0, d3.max(data, function (d) { return d[yVal] + 10; })])
           .range([margin.top, height - margin.bottom]);  // Set margins for y specific
 
-    x.domain(d3.extent(data, function(d) {
+    x1.domain(d3.extent(data, function(d) {
                                 return +d[xVal];
                             }));
-    y.domain([0, yMax]);
+    y1.domain([0, yMax]);
      //     Add the scatterplot points
 
     var mouseover = function(d) {
@@ -161,41 +159,29 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
         .append("circle")
         .attr("r", 5)
         .attr("cx", function(d) {
-                        return x(d[xVal]);
+                        return x1(d[xVal]);
                     })
         .attr("cy", function(d) {
-                        return y(d[yVal]);
+                        return y1(d[yVal]);
                             })
         .attr("fill", "red")
         .on("mouseover", mouseover)
         .on("mouseout", mouseout) 
         .on("click", function(d) {
-            $("#scatterLabel").append("<p>" + "x: " + d.x + "\ny: " + d.y + "</p>")
+            $("#scatterLabel").append("<p>" + "x: " + d.x + " &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp y: " + d.y + "</p>")
         })
             //return "x: " + d.x + "\ny: " + d.y;})
         .append("svg:title")
         .text(function(d) {return "x: " + d.x + "\ny: " + d.y;});
 
-
-    // svg.on("click", function() {
-    //     var coords = d3.mouse(this);
-
-    //       // Normally we go from data to pixels, but here we're doing pixels to data
-    //       var newData= {
-    //         x: Math.round( x.invert(coords[0])),  // Takes the pixel number to convert to number
-    //         y: Math.round( y.invert(coords[1]))
-    //       };
-    //     $("#scatterLabel").append("<p>" + newData[x] + "  " + newData[y] + "</p>");
-    //     });
-
      //     Add the X Axis
     svg.append("g")
         .attr("transform", "translate(0, " + height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x1));
 
      //     Add the Y Axis
     svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y1));
 
     //Add text labels
     var xLabel = svg.append("text")
@@ -218,8 +204,8 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
 
 // define the line
 var valueline = d3.line()
-    .x(function(d) { return x(d[xVal]); })
-    .y(function(d) { return y(d[yVal]); });
+    .x(function(d) { return x1(d[xVal]); })
+    .y(function(d) { return y1(d[yVal]); });
 
 var svg3 = d3.select("#partThree").append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -236,10 +222,10 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
     // Scale the range of the data
     var yMax = d3.max(data, function(d) { return d[yVal];});
 
-    x.domain(d3.extent(data, function(d) {
+    x1.domain(d3.extent(data, function(d) {
                                 return +d[xVal];
                             }));
-    y.domain([0, yMax]);
+    y1.domain([0, yMax]);
      //     Add the scatterplot points
 
     console.log(data);
@@ -255,11 +241,11 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
      //Add the X Axis
     svg3.append("g")
         .attr("transform", "translate(0, " + height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x1));
 
      //     Add the Y Axis
     svg3.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y1));
 
     //Add text labels
     var xLabel = svg3.append("text")
@@ -276,8 +262,328 @@ d3.csv("./data/anscombe_II.csv", function(error, data) {
                     .style("text-anchor", "start");
 });
         
-        // Put your part five code here ***********************
-        
+// Put your part five code here ***********************
+      
+var margin_1 = {top: 20, right: 20, bottom: 30, left: 50};
+var width_1 = 450 - margin_1.left - margin_1.right;
+var height_1 = 400 - margin_1.top - margin_1.bottom;
+
+// set the ranges
+
+var x = d3.scaleLinear().range([0, width_1]);
+var y = d3.scaleLinear().range([height_1, 0]);
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin_1
+var svg_1 = d3.select("#scatterplotSet_1").append("svg")
+                .attr("width", width_1 + margin_1.left + margin_1.right)
+                .attr("height", height_1 + margin_1.top + margin_1.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");
+
+// Get the data
+d3.csv("./data/anscombe_II.csv", function(error, data) {
+    if  (error) throw error;
+    // Scale the range of the data
+    var yMax = d3.max(data, function(d) { return d[yVal];});
+
+    var xScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[xVal] + 10; })])
+          .range([margin_1.left, width_1 - margin_1.right]);  // Set margins for x specific
+
+      // We're passing in a function in d3.max to tell it what we're maxing (y value)
+    var yScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[yVal] + 10; })])
+          .range([margin_1.top, height_1 - margin_1.bottom]);  // Set margins for y specific
+
+    x.domain(d3.extent(data, function(d) {
+                                return +d[xVal];
+                            }));
+    y.domain([0, yMax]);
+     //     Add the scatterplot points
+
+    var mouseover = function(d) {
+          var p = d3.select(this)
+            .style("fill", "red");}
+
+    var mouseout = function(d) {
+          var p = d3.select(this)
+            .style("fill", "green");}
+
+
+    svg_1.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("cx", function(d) {
+                        return x(d[xVal]);
+                    })
+        .attr("cy", function(d) {
+                        return y(d[yVal]);
+                            })
+        .attr("fill", "green")
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout) 
+        .append("svg:title")
+        .text(function(d) {return "x: " + d.x + "\ny: " + d.y;});
+
+     //     Add the X Axis
+    svg_1.append("g")
+        .attr("transform", "translate(0, " + height_1 + ")")
+        .call(d3.axisBottom(x));
+
+     //     Add the Y Axis
+    svg_1.append("g")
+        .call(d3.axisLeft(y));
+
+    //Add text labels
+    var xLabel = svg_1.append("text")
+                    .attr("class", "label")
+                    .text(xVal)
+                    .attr("x", width_1 - 20)
+                    .attr("y", height_1 - 10);
+
+    var yLabel = svg_1.append("text")
+                    .attr("class", "label")
+                    .text(yVal)
+                    .attr("y", -10)
+                    .attr("transform", "rotate(90)")
+                    .style("text-anchor", "start");
+});
+
+var svg_2 = d3.select("#scatterplotSet_2").append("svg")
+                .attr("width", width_1 + margin_1.left + margin_1.right)
+                .attr("height", height_1 + margin_1.top + margin_1.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");
+
+// Get the data
+d3.csv("./data/anscombe_II.csv", function(error, data) {
+    if  (error) throw error;
+    // Scale the range of the data
+    var yMax = d3.max(data, function(d) { return d[yVal];});
+
+    var xScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[xVal] + 10; })])
+          .range([margin_1.left, width_1 - margin_1.right]);  // Set margins for x specific
+
+      // We're passing in a function in d3.max to tell it what we're maxing (y value)
+    var yScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[yVal] + 10; })])
+          .range([margin_1.top, height_1 - margin_1.bottom]);  // Set margins for y specific
+
+    x.domain(d3.extent(data, function(d) {
+                                return +d[xVal];
+                            }));
+    y.domain([0, yMax]);
+     //     Add the scatterplot points
+
+    var mouseover = function(d) {
+          var p = d3.select(this)
+            .style("fill", "red");}
+
+    var mouseout = function(d) {
+          var p = d3.select(this)
+            .style("fill", "blue");}
+
+
+    svg_2.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("cx", function(d) {
+                        return x(d[xVal]);
+                    })
+        .attr("cy", function(d) {
+                        return y(d[yVal]);
+                            })
+        .attr("fill", "blue")
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout) 
+        .append("svg:title")
+        .text(function(d) {return "x: " + d.x + "\ny: " + d.y;});
+
+     //     Add the X Axis
+    svg_2.append("g")
+        .attr("transform", "translate(0, " + height_1 + ")")
+        .call(d3.axisBottom(x));
+
+     //     Add the Y Axis
+    svg_2.append("g")
+        .call(d3.axisLeft(y));
+
+    //Add text labels
+    var xLabel = svg_2.append("text")
+                    .attr("class", "label")
+                    .text(xVal)
+                    .attr("x", width_1 - 20)
+                    .attr("y", height_1 - 10);
+
+    var yLabel = svg_2.append("text")
+                    .attr("class", "label")
+                    .text(yVal)
+                    .attr("y", -10)
+                    .attr("transform", "rotate(90)")
+                    .style("text-anchor", "start");
+});
+
+var svg_3 = d3.select("#scatterplotSet_3").append("svg")
+                .attr("width", width_1 + margin_1.left + margin_1.right)
+                .attr("height", height_1 + margin_1.top + margin_1.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");
+
+// Get the data
+d3.csv("./data/anscombe_III.csv", function(error, data) {
+    if  (error) throw error;
+    // Scale the range of the data
+    var yMax = d3.max(data, function(d) { return d[yVal];});
+
+    var xScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[xVal] + 10; })])
+          .range([margin_1.left, width_1 - margin_1.right]);  // Set margins for x specific
+
+      // We're passing in a function in d3.max to tell it what we're maxing (y value)
+    var yScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[yVal] + 10; })])
+          .range([margin_1.top, height_1 - margin_1.bottom]);  // Set margins for y specific
+
+    x.domain(d3.extent(data, function(d) {
+                                return +d[xVal];
+                            }));
+    y.domain([0, yMax]);
+     //     Add the scatterplot points
+
+    var mouseover = function(d) {
+          var p = d3.select(this)
+            .style("fill", "red");}
+
+    var mouseout = function(d) {
+          var p = d3.select(this)
+            .style("fill", "yellow");}
+
+
+    svg_3.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("cx", function(d) {
+                        return x(d[xVal]);
+                    })
+        .attr("cy", function(d) {
+                        return y(d[yVal]);
+                            })
+        .attr("fill", "yellow")
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout) 
+        .append("svg:title")
+        .text(function(d) {return "x: " + d.x + "\ny: " + d.y;});
+
+     //     Add the X Axis
+    svg_3.append("g")
+        .attr("transform", "translate(0, " + height_1 + ")")
+        .call(d3.axisBottom(x));
+
+     //     Add the Y Axis
+    svg_3.append("g")
+        .call(d3.axisLeft(y));
+
+    //Add text labels
+    var xLabel = svg_3.append("text")
+                    .attr("class", "label")
+                    .text(xVal)
+                    .attr("x", width_1 - 20)
+                    .attr("y", height_1 - 10);
+
+    var yLabel = svg_3.append("text")
+                    .attr("class", "label")
+                    .text(yVal)
+                    .attr("y", -10)
+                    .attr("transform", "rotate(90)")
+                    .style("text-anchor", "start");
+});
+
+var svg_4 = d3.select("#scatterplotSet_4").append("svg")
+                .attr("width", width_1 + margin_1.left + margin_1.right)
+                .attr("height", height_1 + margin_1.top + margin_1.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin_1.left + "," + margin_1.top + ")");
+
+// Get the data
+d3.csv("./data/anscombe_IV.csv", function(error, data) {
+    if  (error) throw error;
+    // Scale the range of the data
+    var yMax = d3.max(data, function(d) { return d[yVal];});
+
+    var xScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[xVal] + 10; })])
+          .range([margin_1.left, width_1 - margin_1.right]);  // Set margins for x specific
+
+      // We're passing in a function in d3.max to tell it what we're maxing (y value)
+    var yScale = d3.scaleLinear()
+          .domain([0, d3.max(data, function (d) { return d[yVal] + 10; })])
+          .range([margin_1.top, height_1 - margin_1.bottom]);  // Set margins for y specific
+
+    x.domain(d3.extent(data, function(d) {
+                                return +d[xVal];
+                            }));
+    y.domain([0, yMax]);
+     //     Add the scatterplot points
+
+    var mouseover = function(d) {
+          var p = d3.select(this)
+            .style("fill", "red");}
+
+    var mouseout = function(d) {
+          var p = d3.select(this)
+            .style("fill", "orange");}
+
+
+    svg_4.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("r", 5)
+        .attr("cx", function(d) {
+                        return x(d[xVal]);
+                    })
+        .attr("cy", function(d) {
+                        return y(d[yVal]);
+                            })
+        .attr("fill", "orange")
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout) 
+        .append("svg:title")
+        .text(function(d) {return "x: " + d.x + "\ny: " + d.y;});
+
+     //     Add the X Axis
+    svg_4.append("g")
+        .attr("transform", "translate(0, " + height_1 + ")")
+        .call(d3.axisBottom(x));
+
+     //     Add the Y Axis
+    svg_4.append("g")
+        .call(d3.axisLeft(y));
+
+    //Add text labels
+    var xLabel = svg_4.append("text")
+                    .attr("class", "label")
+                    .text(xVal)
+                    .attr("x", width_1 - 20)
+                    .attr("y", height_1 - 10);
+
+    var yLabel = svg_4.append("text")
+                    .attr("class", "label")
+                    .text(yVal)
+                    .attr("y", -10)
+                    .attr("transform", "rotate(90)")
+                    .style("text-anchor", "start");
+});
+
     </script>
 </body>
 
